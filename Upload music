@@ -1,0 +1,48 @@
+import React, { useState } from 'react';
+
+function MusicUploader() {
+  const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
+
+  // Handle file selection
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.type.startsWith('audio/')) {
+      setFile(selectedFile);
+      setFileUrl(URL.createObjectURL(selectedFile)); // Create a URL for the file
+    } else {
+      alert('Please select a valid audio file');
+    }
+  };
+
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>BathiniBona Network</h1>
+      <h2>Upload and Download Music</h2>
+
+      <input
+        type="file"
+        accept="audio/*" // Only accept audio files
+        onChange={handleFileChange}
+      />
+
+      {file && (
+        <div style={{ marginTop: '20px' }}>
+          <p>File uploaded: <strong>{file.name}</strong></p>
+
+          <audio controls src={fileUrl} style={{ marginTop: '10px' }} />
+
+          <a
+            href={fileUrl}
+            download={file.name}
+            style={{ display: 'block', marginTop: '20px', color: 'blue' }}
+          >
+            Download {file.name}
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default MusicUploader;
